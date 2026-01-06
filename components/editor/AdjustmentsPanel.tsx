@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { Adjustments, DEFAULT_ADJUSTMENTS } from "@/lib/types";
 
 interface AdjustmentsPanelProps {
@@ -20,25 +20,66 @@ interface SliderProps {
 }
 
 function Slider({ label, value, min, max, onChange }: SliderProps) {
-  const percentage = ((value - min) / (max - min)) * 100;
+  // Local state for immediate visual feedback
+  const [localValue, setLocalValue] = useState(value);
+  const rafRef = useRef<number | null>(null);
+  const lastCommittedValue = useRef(value);
+  
+  // Sync local value when prop changes (e.g., reset)
+  useEffect(() => {
+    setLocalValue(value);
+    lastCommittedValue.current = value;
+  }, [value]);
+  
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+    
+    // Update local state immediately for smooth visual feedback
+    setLocalValue(newValue);
+    
+    // Cancel any pending RAF
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+    }
+    
+    // Use requestAnimationFrame to batch updates and sync with display refresh
+    rafRef.current = requestAnimationFrame(() => {
+      // Only commit if value actually changed
+      if (newValue !== lastCommittedValue.current) {
+        lastCommittedValue.current = newValue;
+        onChange(newValue);
+      }
+    });
+  }, [onChange]);
+  
+  // Cleanup RAF on unmount
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+  
+  const percentage = ((localValue - min) / (max - min)) * 100;
   const isCenter = min < 0;
 
   return (
     <div className="group">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-xs font-medium text-gray-600">{label}</span>
-        <span className="text-xs tabular-nums text-gray-400">{value}</span>
+        <span className="text-xs tabular-nums text-gray-400">{localValue}</span>
       </div>
       <div className="relative h-1.5 w-full rounded-full bg-gray-200">
         {/* Track fill */}
         <div
-          className="absolute h-full rounded-full bg-gray-900 transition-all"
+          className="absolute h-full rounded-full bg-gray-900"
           style={{
             left: isCenter ? "50%" : "0%",
             width: isCenter
               ? `${Math.abs(percentage - 50)}%`
               : `${percentage}%`,
-            transform: isCenter && value < 0 ? "translateX(-100%)" : "none",
+            transform: isCenter && localValue < 0 ? "translateX(-100%)" : "none",
           }}
         />
         {/* Input */}
@@ -46,8 +87,8 @@ function Slider({ label, value, min, max, onChange }: SliderProps) {
           type="range"
           min={min}
           max={max}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
+          value={localValue}
+          onChange={handleChange}
           className="absolute inset-0 h-full w-full cursor-pointer appearance-none bg-transparent [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-900 [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:hover:scale-110"
         />
       </div>

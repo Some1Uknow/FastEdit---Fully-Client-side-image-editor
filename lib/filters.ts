@@ -184,6 +184,13 @@ export const FILTER_PRESETS: FilterPreset[] = [
 export function getFilterString(adjustments: Adjustments): string {
   const filters: string[] = [];
 
+  // Exposure: affects overall brightness more dramatically
+  // Exposure of -100 = 0.25x, 0 = 1x, 100 = 4x (exponential scale)
+  if (adjustments.exposure !== 0) {
+    const exposureMultiplier = Math.pow(2, adjustments.exposure / 50);
+    filters.push(`brightness(${exposureMultiplier})`);
+  }
+
   // Brightness: 0 = 100%, -100 = 0%, 100 = 200%
   const brightness = 1 + adjustments.brightness / 100;
   filters.push(`brightness(${brightness})`);
@@ -195,6 +202,51 @@ export function getFilterString(adjustments: Adjustments): string {
   // Saturation: 0 = 100%, -100 = 0%, 100 = 200%
   const saturation = 1 + adjustments.saturation / 100;
   filters.push(`saturate(${saturation})`);
+
+  // Vibrance: Similar to saturation but more subtle, affects less saturated colors more
+  // Implemented as a gentler saturation boost
+  if (adjustments.vibrance !== 0) {
+    const vibranceBoost = 1 + (adjustments.vibrance / 200); // Half the effect of saturation
+    filters.push(`saturate(${vibranceBoost})`);
+  }
+
+  // Highlights: Brighten bright areas (approximated with brightness on high values)
+  // This is a simplified approximation since CSS doesn't have true highlights control
+  if (adjustments.highlights !== 0) {
+    // Positive highlights = brighter brights, negative = darker brights
+    const highlightEffect = 1 + (adjustments.highlights / 400);
+    filters.push(`brightness(${highlightEffect})`);
+  }
+
+  // Shadows: Brighten or darken dark areas (approximated)
+  // Positive shadows = lift shadows (brighter), negative = crush shadows (darker)
+  if (adjustments.shadows !== 0) {
+    // Shadows affect contrast in the dark regions
+    const shadowEffect = 1 + (adjustments.shadows / 300);
+    filters.push(`brightness(${shadowEffect})`);
+  }
+
+  // Temperature: Warm (positive) or cool (negative) color cast
+  // Approximated using sepia for warmth and hue-rotate for coolness
+  if (adjustments.temperature !== 0) {
+    if (adjustments.temperature > 0) {
+      // Warm: add slight sepia/orange tint
+      const warmth = adjustments.temperature / 200;
+      filters.push(`sepia(${warmth})`);
+      filters.push(`saturate(${1 + warmth * 0.5})`);
+    } else {
+      // Cool: shift hue towards blue
+      const coolness = Math.abs(adjustments.temperature) / 5;
+      filters.push(`hue-rotate(${-coolness}deg)`);
+    }
+  }
+
+  // Tint: Green (negative) or magenta (positive) shift
+  if (adjustments.tint !== 0) {
+    // Approximate tint with hue rotation
+    const tintShift = adjustments.tint / 4;
+    filters.push(`hue-rotate(${tintShift}deg)`);
+  }
 
   // Hue rotation
   if (adjustments.hue !== 0) {

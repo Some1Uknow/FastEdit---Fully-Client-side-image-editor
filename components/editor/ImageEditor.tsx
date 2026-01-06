@@ -43,6 +43,7 @@ export function ImageEditor() {
   // View state
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
 
   // Adjustments state
   const [adjustments, setAdjustments] = useState<Adjustments>(DEFAULT_ADJUSTMENTS);
@@ -149,14 +150,38 @@ export function ImageEditor() {
     }
   }, [history, historyIndex]);
 
+  // Calculate optimal zoom to fit image in viewport
+  const calculateFitZoom = useCallback((imgWidth: number, imgHeight: number) => {
+    // Get container dimensions - use window as fallback
+    const containerWidth = canvasContainerRef.current?.clientWidth || window.innerWidth - 300; // 300 for side panel
+    const containerHeight = canvasContainerRef.current?.clientHeight || window.innerHeight - 100; // 100 for toolbar
+    
+    // Add padding (85% of available space)
+    const availableWidth = containerWidth * 0.85;
+    const availableHeight = containerHeight * 0.85;
+    
+    // Calculate zoom to fit
+    const zoomX = availableWidth / imgWidth;
+    const zoomY = availableHeight / imgHeight;
+    
+    // Use the smaller zoom to ensure image fits both dimensions
+    const fitZoom = Math.min(zoomX, zoomY);
+    
+    // Clamp between 0.1 and 1 (don't zoom in beyond 100% on load)
+    return Math.min(Math.max(fitZoom, 0.1), 1);
+  }, []);
+
   // Load image helper
   const loadImageToEditor = useCallback((img: HTMLImageElement) => {
     setIsLoading(true);
     // Simulate a small delay for the loading animation to be visible
     setTimeout(() => {
+      // Calculate optimal zoom before setting image
+      const optimalZoom = calculateFitZoom(img.width, img.height);
+      
       setImage(img);
       setOriginalImage(img);
-      setZoom(1);
+      setZoom(optimalZoom);
       setPan({ x: 0, y: 0 });
       setAdjustments(DEFAULT_ADJUSTMENTS);
       setTransform({ rotation: 0, flipX: false, flipY: false });
@@ -184,7 +209,7 @@ export function ImageEditor() {
         setIsLoading(false);
       }, 0);
     }, 800);
-  }, []);
+  }, [calculateFitZoom]);
 
   // Handle file upload
   const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -659,7 +684,7 @@ export function ImageEditor() {
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
         {/* Canvas area */}
-        <div className="relative flex flex-1 flex-col">
+        <div ref={canvasContainerRef} className="relative flex flex-1 flex-col">
           {image ? (
             <>
               {/* Toolbar - positioned at top with proper spacing */}

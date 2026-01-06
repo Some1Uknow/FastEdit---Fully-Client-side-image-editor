@@ -219,6 +219,65 @@ export function Canvas({
     // Restore context
     ctx.restore();
 
+    // Apply vignette effect (after main image, before overlays)
+    if (adjustments.vignette > 0) {
+      const vignetteStrength = adjustments.vignette / 100;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = Math.max(canvas.width, canvas.height) * 0.7;
+      
+      const gradient = ctx.createRadialGradient(
+        centerX, centerY, radius * (1 - vignetteStrength * 0.5),
+        centerX, centerY, radius
+      );
+      gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      gradient.addColorStop(1, `rgba(0, 0, 0, ${vignetteStrength * 0.8})`);
+      
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Apply sharpness effect using unsharp mask technique
+    if (adjustments.sharpness > 0) {
+      const sharpnessAmount = adjustments.sharpness / 100;
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Create a copy for the blur
+      const blurData = new Uint8ClampedArray(data);
+      
+      // Simple 3x3 box blur for the mask
+      const kernel = 1 / 9;
+      for (let y = 1; y < height - 1; y++) {
+        for (let x = 1; x < width - 1; x++) {
+          const idx = (y * width + x) * 4;
+          for (let c = 0; c < 3; c++) {
+            let sum = 0;
+            for (let ky = -1; ky <= 1; ky++) {
+              for (let kx = -1; kx <= 1; kx++) {
+                const kidx = ((y + ky) * width + (x + kx)) * 4 + c;
+                sum += data[kidx];
+              }
+            }
+            blurData[idx + c] = sum * kernel;
+          }
+        }
+      }
+      
+      // Apply unsharp mask: original + (original - blur) * amount
+      const amount = sharpnessAmount * 2;
+      for (let i = 0; i < data.length; i += 4) {
+        for (let c = 0; c < 3; c++) {
+          const diff = data[i + c] - blurData[i + c];
+          data[i + c] = Math.min(255, Math.max(0, data[i + c] + diff * amount));
+        }
+      }
+      
+      ctx.putImageData(imageData, 0, 0);
+    }
+
     // Draw overlays (drawings, shapes, text) without filters
     ctx.filter = "none";
 
