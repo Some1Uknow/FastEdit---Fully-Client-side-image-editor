@@ -26,13 +26,13 @@ function Slider({ label, value, min, max, onChange }: SliderProps) {
   return (
     <div className="group">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs font-medium text-white/70">{label}</span>
-        <span className="text-xs tabular-nums text-white/50">{value}</span>
+        <span className="text-xs font-medium text-gray-600">{label}</span>
+        <span className="text-xs tabular-nums text-gray-400">{value}</span>
       </div>
-      <div className="relative h-1.5 w-full rounded-full bg-white/10">
+      <div className="relative h-1.5 w-full rounded-full bg-gray-200">
         {/* Track fill */}
         <div
-          className="absolute h-full rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all"
+          className="absolute h-full rounded-full bg-gray-900 transition-all"
           style={{
             left: isCenter ? "50%" : "0%",
             width: isCenter
@@ -48,7 +48,7 @@ function Slider({ label, value, min, max, onChange }: SliderProps) {
           max={max}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 h-full w-full cursor-pointer appearance-none bg-transparent [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:shadow-black/30 [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:hover:scale-110"
+          className="absolute inset-0 h-full w-full cursor-pointer appearance-none bg-transparent [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-900 [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:hover:scale-110"
         />
       </div>
     </div>
@@ -57,7 +57,7 @@ function Slider({ label, value, min, max, onChange }: SliderProps) {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-white/40">
+    <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
       {children}
     </h3>
   );
@@ -76,7 +76,7 @@ function ActionButton({
     <button
       onClick={onClick}
       title={title}
-      className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-white/60 transition-all hover:bg-white/10 hover:text-white"
+      className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600 transition-all hover:bg-gray-200 hover:text-gray-900"
     >
       {children}
     </button>
@@ -122,13 +122,13 @@ export function AdjustmentsPanel({
   ];
 
   return (
-    <div className="flex h-full w-72 flex-col border-l border-white/10 bg-black/40 backdrop-blur-xl">
+    <div className="flex h-full w-72 flex-col border-l border-gray-200 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">Adjustments</h2>
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <h2 className="text-sm font-semibold text-gray-900">Adjustments</h2>
         <button
           onClick={handleResetAdjustments}
-          className="text-xs text-white/50 transition-colors hover:text-white"
+          className="text-xs text-gray-500 transition-colors hover:text-gray-900"
         >
           Reset All
         </button>

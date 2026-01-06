@@ -91,17 +91,17 @@ export function ShapesPanel({
   onRemoveShape,
 }: ShapesPanelProps) {
   return (
-    <div className="flex h-full w-72 flex-col border-l border-white/10 bg-black/40 backdrop-blur-xl">
+    <div className="flex h-full w-72 flex-col border-l border-gray-200 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">Shapes</h2>
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <h2 className="text-sm font-semibold text-gray-900">Shapes</h2>
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-4">
         {/* Shape selection */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Shape
           </h3>
           <div className="grid grid-cols-3 gap-2">
@@ -113,8 +113,8 @@ export function ShapesPanel({
                   flex flex-col items-center justify-center gap-1 rounded-lg p-3 transition-all
                   ${
                     settings.type === shape.type
-                      ? "bg-white text-black"
-                      : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                   }
                 `}
               >
@@ -128,7 +128,7 @@ export function ShapesPanel({
         {/* Fill color */}
         <div className="mb-6">
           <div className="mb-3 flex items-center justify-between">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               Fill
             </h3>
             <button
@@ -137,8 +137,8 @@ export function ShapesPanel({
                 rounded px-2 py-0.5 text-xs transition-all
                 ${
                   settings.fill
-                    ? "bg-white/20 text-white"
-                    : "bg-white/5 text-white/50"
+                    ? "bg-gray-200 text-gray-900"
+                    : "bg-gray-100 text-gray-500"
                 }
               `}
             >
@@ -153,11 +153,11 @@ export function ShapesPanel({
                     key={color}
                     onClick={() => onSettingsChange({ fillColor: color })}
                     className={`
-                      aspect-square rounded-lg transition-all
+                      aspect-square rounded-lg border transition-all
                       ${
                         settings.fillColor === color
-                          ? "ring-2 ring-white ring-offset-2 ring-offset-black"
-                          : "hover:scale-105"
+                          ? "ring-2 ring-gray-900 ring-offset-2"
+                          : "border-gray-200 hover:scale-105"
                       }
                     `}
                     style={{ backgroundColor: color }}
@@ -165,14 +165,14 @@ export function ShapesPanel({
                 ))}
               </div>
               <div className="mt-3 flex items-center gap-2">
-                <label className="text-xs text-white/50">Custom:</label>
+                <label className="text-xs text-gray-500">Custom:</label>
                 <input
                   type="color"
                   value={settings.fillColor}
                   onChange={(e) =>
                     onSettingsChange({ fillColor: e.target.value })
                   }
-                  className="h-8 w-full cursor-pointer rounded-lg border-0 bg-transparent"
+                  className="h-8 w-full cursor-pointer rounded-lg border border-gray-200 bg-transparent"
                 />
               </div>
             </>
@@ -181,7 +181,7 @@ export function ShapesPanel({
 
         {/* Stroke color */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Stroke
           </h3>
           <div className="grid grid-cols-5 gap-2">
@@ -190,11 +190,11 @@ export function ShapesPanel({
                 key={color}
                 onClick={() => onSettingsChange({ strokeColor: color })}
                 className={`
-                  aspect-square rounded-lg transition-all
+                  aspect-square rounded-lg border transition-all
                   ${
                     settings.strokeColor === color
-                      ? "ring-2 ring-white ring-offset-2 ring-offset-black"
-                      : "hover:scale-105"
+                      ? "ring-2 ring-gray-900 ring-offset-2"
+                      : "border-gray-200 hover:scale-105"
                   }
                 `}
                 style={{ backgroundColor: color }}
@@ -202,21 +202,21 @@ export function ShapesPanel({
             ))}
           </div>
           <div className="mt-3 flex items-center gap-2">
-            <label className="text-xs text-white/50">Custom:</label>
+            <label className="text-xs text-gray-500">Custom:</label>
             <input
               type="color"
               value={settings.strokeColor}
               onChange={(e) =>
                 onSettingsChange({ strokeColor: e.target.value })
               }
-              className="h-8 w-full cursor-pointer rounded-lg border-0 bg-transparent"
+              className="h-8 w-full cursor-pointer rounded-lg border border-gray-200 bg-transparent"
             />
           </div>
         </div>
 
         {/* Stroke width */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Stroke Width
           </h3>
           <input
@@ -227,9 +227,9 @@ export function ShapesPanel({
             onChange={(e) =>
               onSettingsChange({ strokeWidth: Number(e.target.value) })
             }
-            className="w-full cursor-pointer appearance-none bg-transparent [&::-webkit-slider-runnable-track]:h-1.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-white/10 [&::-webkit-slider-thumb]:mt-[-4px] [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+            className="w-full cursor-pointer appearance-none bg-transparent [&::-webkit-slider-runnable-track]:h-1.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-gray-200 [&::-webkit-slider-thumb]:mt-[-4px] [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-900"
           />
-          <div className="mt-1 flex justify-between text-xs text-white/40">
+          <div className="mt-1 flex justify-between text-xs text-gray-400">
             <span>1px</span>
             <span>{settings.strokeWidth}px</span>
             <span>20px</span>
@@ -239,7 +239,7 @@ export function ShapesPanel({
         {/* Shape layers */}
         {shapes.length > 0 && (
           <div className="mb-6">
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
               Shape Layers
             </h3>
             <div className="space-y-2">
@@ -251,8 +251,8 @@ export function ShapesPanel({
                     flex cursor-pointer items-center justify-between rounded-lg p-2 transition-all
                     ${
                       selectedShapeId === shape.id
-                        ? "bg-white/20"
-                        : "bg-white/5 hover:bg-white/10"
+                        ? "bg-gray-200"
+                        : "bg-gray-100 hover:bg-gray-200"
                     }
                   `}
                 >
@@ -266,7 +266,7 @@ export function ShapesPanel({
                         border: `2px solid ${shape.strokeColor}`,
                       }}
                     />
-                    <span className="text-xs capitalize text-white/70">
+                    <span className="text-xs capitalize text-gray-600">
                       {shape.type}
                     </span>
                   </div>
@@ -275,7 +275,7 @@ export function ShapesPanel({
                       e.stopPropagation();
                       onRemoveShape(shape.id);
                     }}
-                    className="rounded p-1 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+                    className="rounded p-1 text-gray-400 transition-colors hover:bg-gray-300 hover:text-gray-700"
                   >
                     <svg
                       className="h-3 w-3"
@@ -298,9 +298,9 @@ export function ShapesPanel({
         )}
 
         {/* Tips */}
-        <div className="rounded-lg bg-white/5 p-3">
-          <h4 className="mb-2 text-xs font-medium text-white/70">Tips</h4>
-          <ul className="space-y-1 text-xs text-white/50">
+        <div className="rounded-lg bg-gray-50 p-3">
+          <h4 className="mb-2 text-xs font-medium text-gray-700">Tips</h4>
+          <ul className="space-y-1 text-xs text-gray-500">
             <li>• Click and drag to draw shapes</li>
             <li>• Hold Shift for perfect squares/circles</li>
             <li>• Select shape layer to delete</li>

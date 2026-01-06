@@ -58,14 +58,14 @@ export function FiltersPanel({
   }, [previewImage]);
 
   return (
-    <div className="flex h-full w-72 flex-col border-l border-white/10 bg-black/40 backdrop-blur-xl">
+    <div className="flex h-full w-72 flex-col border-l border-gray-200 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">Filters</h2>
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <h2 className="text-sm font-semibold text-gray-900">Filters</h2>
         {activeFilter && activeFilter !== "none" && (
           <button
             onClick={() => onApplyFilter("none")}
-            className="text-xs text-white/50 transition-colors hover:text-white"
+            className="text-xs text-gray-500 transition-colors hover:text-gray-900"
           >
             Remove
           </button>
@@ -84,13 +84,13 @@ export function FiltersPanel({
                 ${
                   activeFilter === filter.id ||
                   (filter.id === "none" && !activeFilter)
-                    ? "ring-2 ring-white ring-offset-2 ring-offset-black"
-                    : "hover:ring-1 hover:ring-white/30"
+                    ? "ring-2 ring-gray-900 ring-offset-2"
+                    : "hover:ring-1 hover:ring-gray-300"
                 }
               `}
             >
               {/* Preview image */}
-              <div className="aspect-square w-full overflow-hidden bg-white/5">
+              <div className="aspect-square w-full overflow-hidden bg-gray-100">
                 {filterPreviews[filter.id] ? (
                   <img
                     src={filterPreviews[filter.id]}
@@ -99,13 +99,13 @@ export function FiltersPanel({
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
-                    <div className="h-6 w-6 animate-pulse rounded-full bg-white/10" />
+                    <div className="h-6 w-6 animate-pulse rounded-full bg-gray-200" />
                   </div>
                 )}
               </div>
 
               {/* Label */}
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 py-2">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-2 py-2">
                 <span className="text-xs font-medium text-white">
                   {filter.name}
                 </span>
@@ -114,9 +114,9 @@ export function FiltersPanel({
               {/* Active indicator */}
               {(activeFilter === filter.id ||
                 (filter.id === "none" && !activeFilter)) && (
-                <div className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-white">
+                <div className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900">
                   <svg
-                    className="h-3 w-3 text-black"
+                    className="h-3 w-3 text-white"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

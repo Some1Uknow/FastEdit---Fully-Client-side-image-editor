@@ -596,61 +596,65 @@ export function ImageEditor() {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col bg-[#0a0a0a]">
-      {/* Floating Navbar */}
-      <nav className="fixed left-1/2 top-6 z-50 flex -translate-x-1/2 items-center gap-6 rounded-full border border-white/10 bg-black/40 px-6 py-3 backdrop-blur-xl shadow-2xl transition-all hover:border-white/20 hover:bg-black/50">
-        <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 shadow-lg shadow-violet-500/20">
-            <svg
-              className="h-4 w-4 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
-              />
-            </svg>
+    <div className="flex h-screen w-full flex-col bg-[#fafafa]">
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+
+      {/* Floating Navbar - only show when no image is loaded */}
+      {!image && (
+        <nav className="fixed left-1/2 top-4 z-50 flex -translate-x-1/2 items-center gap-6 rounded-full border border-gray-200 bg-white/80 px-6 py-3 backdrop-blur-xl shadow-sm transition-all hover:shadow-md">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black">
+              <svg
+                className="h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+                />
+              </svg>
+            </div>
+            <span className="text-sm font-semibold tracking-tight text-gray-900">
+              FastEdit
+            </span>
           </div>
-          <span className="text-sm font-semibold tracking-tight text-white/90">
-            Image Editor
-          </span>
-        </div>
 
-        <div className="h-4 w-px bg-white/10" />
+          <div className="h-4 w-px bg-gray-200" />
 
-        <div className="flex items-center gap-2">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileUpload}
-            className="hidden"
-          />
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="group flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white transition-all hover:bg-white/20 hover:pr-3"
-          >
-            <svg
-              className="h-3.5 w-3.5 text-white/70 transition-colors group-hover:text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="group flex items-center gap-2 rounded-full bg-gray-100 px-4 py-1.5 text-xs font-medium text-gray-700 transition-all hover:bg-gray-200"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-              />
-            </svg>
-            Open Image
-          </button>
-        </div>
-      </nav>
+              <svg
+                className="h-3.5 w-3.5 text-gray-500 transition-colors group-hover:text-gray-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                />
+              </svg>
+              Open Image
+            </button>
+          </div>
+        </nav>
+      )}
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
@@ -658,9 +662,10 @@ export function ImageEditor() {
         <div className="relative flex flex-1 flex-col">
           {image ? (
             <>
-              {/* Toolbar */}
+              {/* Toolbar - positioned at top with proper spacing */}
               <div className="absolute left-1/2 top-4 z-10 -translate-x-1/2">
                 <Toolbar
+                  fileInputRef={fileInputRef}
                   activeTool={activeTool}
                   onToolChange={setActiveTool}
                   onUndo={handleUndo}

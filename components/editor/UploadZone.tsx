@@ -51,24 +51,17 @@ export function UploadZone({ onFileSelect, onUseSample, isLoading }: UploadZoneP
   );
 
   return (
-
-<div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#0a0a0a]">
-      {/* Ambient Background Effects */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-[10%] -top-[10%] h-[500px] w-[500px] rounded-full bg-violet-500/20 blur-[120px]" />
-        <div className="absolute -bottom-[10%] -right-[10%] h-[500px] w-[500px] rounded-full bg-fuchsia-500/20 blur-[120px]" />
-      </div>
-
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#fafafa]">
       {/* Main Card */}
       <label
         className={`
           group relative z-10 flex w-full max-w-[420px] cursor-pointer flex-col items-center justify-center
-          overflow-hidden rounded-3xl border border-white/10 bg-black/40 p-12
-          backdrop-blur-2xl transition-all duration-500 ease-out
+          overflow-hidden rounded-2xl border bg-white p-12
+          shadow-sm transition-all duration-300 ease-out
           ${
             isDragging
-              ? "scale-105 border-violet-500/50 shadow-[0_0_40px_-10px_rgba(139,92,246,0.3)]"
-              : "hover:border-white/20 hover:bg-black/50 hover:shadow-2xl"
+              ? "scale-[1.02] border-gray-400 shadow-md"
+              : "border-gray-200 hover:border-gray-300 hover:shadow-md"
           }
         `}
         onDragOver={handleDragOver}
@@ -86,12 +79,12 @@ export function UploadZone({ onFileSelect, onUseSample, isLoading }: UploadZoneP
         {isLoading ? (
           <div className="flex flex-col items-center gap-6 py-8">
             <div className="relative h-16 w-16">
-              <div className="absolute inset-0 animate-ping rounded-full bg-violet-500/20" />
-              <div className="relative flex h-full w-full items-center justify-center rounded-full border-2 border-violet-500/30 border-t-violet-500 animate-spin" />
+              <div className="absolute inset-0 animate-ping rounded-full bg-gray-200" />
+              <div className="relative flex h-full w-full items-center justify-center rounded-full border-2 border-gray-200 border-t-gray-900 animate-spin" />
             </div>
             <div className="flex flex-col items-center gap-1">
-              <p className="text-lg font-medium text-white">Processing...</p>
-              <p className="text-sm text-white/40">Preparing your canvas</p>
+              <p className="text-lg font-medium text-gray-900">Processing...</p>
+              <p className="text-sm text-gray-500">Preparing your canvas</p>
             </div>
           </div>
         ) : (
@@ -100,21 +93,14 @@ export function UploadZone({ onFileSelect, onUseSample, isLoading }: UploadZoneP
             <div className="relative mb-8">
               <div
                 className={`
-                  absolute inset-0 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 blur-xl opacity-20
-                  transition-all duration-500
-                  ${isDragging ? "scale-150 opacity-40" : "group-hover:scale-125 group-hover:opacity-30"}
-                `}
-              />
-              <div
-                className={`
                   relative flex h-20 w-20 items-center justify-center rounded-2xl
-                  bg-gradient-to-br from-white/10 to-white/5 border border-white/10
-                  shadow-xl transition-transform duration-500
-                  ${isDragging ? "scale-110 rotate-3" : "group-hover:scale-105 group-hover:-rotate-3"}
+                  bg-gray-50 border border-gray-200
+                  transition-all duration-300
+                  ${isDragging ? "scale-110 bg-gray-100" : "group-hover:scale-105 group-hover:bg-gray-100"}
                 `}
               >
                 <svg
-                  className="h-8 w-8 text-white/90"
+                  className="h-8 w-8 text-gray-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -131,21 +117,21 @@ export function UploadZone({ onFileSelect, onUseSample, isLoading }: UploadZoneP
 
             {/* Text Content */}
             <div className="flex flex-col items-center gap-3 text-center">
-              <h3 className="text-2xl font-semibold tracking-tight text-white">
+              <h3 className="text-2xl font-semibold tracking-tight text-gray-900">
                 Upload Image
               </h3>
-              <p className="max-w-[240px] text-sm leading-relaxed text-white/50">
+              <p className="max-w-[240px] text-sm leading-relaxed text-gray-500">
                 Drag and drop your image here, or click to browse files
               </p>
             </div>
 
             {/* Divider */}
             <div className="my-8 flex w-full items-center gap-4 px-8">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-              <span className="text-[10px] font-medium uppercase tracking-widest text-white/20">
+              <div className="h-px flex-1 bg-gray-100" />
+              <span className="text-[10px] font-medium uppercase tracking-widest text-gray-400">
                 Supports
               </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              <div className="h-px flex-1 bg-gray-100" />
             </div>
 
             {/* File Types */}
@@ -153,7 +139,7 @@ export function UploadZone({ onFileSelect, onUseSample, isLoading }: UploadZoneP
               {["PNG", "JPG", "WEBP"].map((type) => (
                 <span
                   key={type}
-                  className="rounded-lg border border-white/5 bg-white/5 px-3 py-1.5 text-[10px] font-medium text-white/40 transition-colors group-hover:border-white/10 group-hover:text-white/60"
+                  className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-[10px] font-medium text-gray-500 transition-colors group-hover:border-gray-300 group-hover:text-gray-600"
                 >
                   {type}
                 </span>
@@ -168,7 +154,7 @@ export function UploadZone({ onFileSelect, onUseSample, isLoading }: UploadZoneP
                 e.stopPropagation();
                 onUseSample();
               }}
-              className="group/btn relative flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-medium text-white/60 transition-all hover:border-white/20 hover:bg-white/10 hover:text-white"
+              className="group/btn relative flex items-center gap-2 rounded-full bg-gray-900 px-5 py-2.5 text-xs font-medium text-white transition-all hover:bg-gray-800"
             >
               <span className="relative z-10">Try Sample Image</span>
               <svg
@@ -190,8 +176,8 @@ export function UploadZone({ onFileSelect, onUseSample, isLoading }: UploadZoneP
       </label>
 
       {/* Footer Info */}
-      <div className="absolute bottom-8 text-xs text-white/20">
-        Press <kbd className="font-sans font-semibold text-white/40">⌘ V</kbd> to paste image
+      <div className="absolute bottom-8 text-xs text-gray-400">
+        Press <kbd className="font-sans font-semibold text-gray-600">⌘ V</kbd> to paste image
       </div>
     </div>
   );

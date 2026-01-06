@@ -87,17 +87,17 @@ export function CropPanel({
   hasCropRect,
 }: CropPanelProps) {
   return (
-    <div className="flex h-full w-72 flex-col border-l border-white/10 bg-black/40 backdrop-blur-xl">
+    <div className="flex h-full w-72 flex-col border-l border-gray-200 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">Crop</h2>
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <h2 className="text-sm font-semibold text-gray-900">Crop</h2>
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-4">
         {/* Aspect ratio */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Aspect Ratio
           </h3>
           <div className="grid grid-cols-2 gap-2">
@@ -109,8 +109,8 @@ export function CropPanel({
                   flex items-center gap-2 rounded-lg px-3 py-2.5 transition-all
                   ${
                     aspectRatio === ratio.value
-                      ? "bg-white text-black"
-                      : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                   }
                 `}
               >
@@ -122,25 +122,25 @@ export function CropPanel({
         </div>
 
         {/* Instructions */}
-        <div className="mb-6 rounded-lg bg-white/5 p-4">
-          <h4 className="mb-2 text-xs font-medium text-white/70">
+        <div className="mb-6 rounded-lg bg-gray-50 p-4">
+          <h4 className="mb-2 text-xs font-medium text-gray-700">
             How to Crop
           </h4>
-          <ol className="space-y-2 text-xs text-white/50">
+          <ol className="space-y-2 text-xs text-gray-500">
             <li className="flex gap-2">
-              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-white/10 text-[10px]">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[10px] text-gray-600">
                 1
               </span>
               <span>Click and drag on the image to select crop area</span>
             </li>
             <li className="flex gap-2">
-              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-white/10 text-[10px]">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[10px] text-gray-600">
                 2
               </span>
               <span>Drag corners or edges to adjust</span>
             </li>
             <li className="flex gap-2">
-              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-white/10 text-[10px]">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gray-200 text-[10px] text-gray-600">
                 3
               </span>
               <span>Click Apply to confirm or Cancel to discard</span>
@@ -153,7 +153,7 @@ export function CropPanel({
           <button
             onClick={onApplyCrop}
             disabled={!hasCropRect}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white py-2.5 text-sm font-medium text-black transition-all hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-gray-900 py-2.5 text-sm font-medium text-white transition-all hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <svg
               className="h-4 w-4"
@@ -172,7 +172,7 @@ export function CropPanel({
           </button>
           <button
             onClick={onCancelCrop}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white/10 py-2.5 text-sm font-medium text-white/70 transition-all hover:bg-white/20 hover:text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-gray-100 py-2.5 text-sm font-medium text-gray-600 transition-all hover:bg-gray-200 hover:text-gray-900"
           >
             <svg
               className="h-4 w-4"
@@ -193,14 +193,14 @@ export function CropPanel({
       </div>
 
       {/* Status bar */}
-      <div className="border-t border-white/10 px-4 py-3">
+      <div className="border-t border-gray-200 px-4 py-3">
         <div className="flex items-center gap-2">
           <div
             className={`h-2 w-2 rounded-full ${
-              isCropActive && hasCropRect ? "bg-green-500" : "bg-white/30"
+              isCropActive && hasCropRect ? "bg-green-500" : "bg-gray-300"
             }`}
           />
-          <span className="text-xs text-white/50">
+          <span className="text-xs text-gray-500">
             {isCropActive && hasCropRect
               ? "Crop area selected"
               : "Draw crop area on image"}

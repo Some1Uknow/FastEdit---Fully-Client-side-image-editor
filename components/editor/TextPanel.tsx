@@ -53,13 +53,13 @@ export function TextPanel({
   const selectedText = texts.find((t) => t.id === selectedTextId);
 
   return (
-    <div className="flex h-full w-72 flex-col border-l border-white/10 bg-black/40 backdrop-blur-xl">
+    <div className="flex h-full w-72 flex-col border-l border-gray-200 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">Text</h2>
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <h2 className="text-sm font-semibold text-gray-900">Text</h2>
         <button
           onClick={onAddText}
-          className="flex items-center gap-1 rounded-lg bg-white/10 px-2 py-1 text-xs text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+          className="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-900"
         >
           <svg
             className="h-3 w-3"
@@ -82,7 +82,7 @@ export function TextPanel({
       <div className="flex-1 overflow-y-auto p-4">
         {/* Text input */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Text Content
           </h3>
           <textarea
@@ -95,13 +95,13 @@ export function TextPanel({
               }
             }}
             placeholder="Enter your text..."
-            className="h-24 w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder-white/30 focus:border-white/30 focus:outline-none"
+            className="h-24 w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-gray-400 focus:outline-none"
           />
         </div>
 
         {/* Font family */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Font
           </h3>
           <select
@@ -113,7 +113,7 @@ export function TextPanel({
                 onSettingsChange({ fontFamily: e.target.value });
               }
             }}
-            className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white focus:border-white/30 focus:outline-none"
+            className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-gray-400 focus:outline-none"
           >
             {FONTS.map((font) => (
               <option key={font} value={font} style={{ fontFamily: font }}>
@@ -125,7 +125,7 @@ export function TextPanel({
 
         {/* Font size */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Size
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -143,8 +143,8 @@ export function TextPanel({
                   rounded-lg px-3 py-1.5 text-xs font-medium transition-all
                   ${
                     (selectedText?.fontSize ?? settings.fontSize) === size
-                      ? "bg-white text-black"
-                      : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                   }
                 `}
               >
@@ -156,7 +156,7 @@ export function TextPanel({
 
         {/* Style options */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Style
           </h3>
           <div className="flex gap-2">
@@ -173,8 +173,8 @@ export function TextPanel({
                 flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold transition-all
                 ${
                   (selectedText?.bold ?? settings.bold)
-                    ? "bg-white text-black"
-                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                    ? "bg-gray-900 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                 }
               `}
             >
@@ -193,8 +193,8 @@ export function TextPanel({
                 flex h-10 w-10 items-center justify-center rounded-lg text-sm italic transition-all
                 ${
                   (selectedText?.italic ?? settings.italic)
-                    ? "bg-white text-black"
-                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                    ? "bg-gray-900 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                 }
               `}
             >
@@ -213,13 +213,13 @@ export function TextPanel({
                 flex h-10 w-10 items-center justify-center rounded-lg transition-all
                 ${
                   (selectedText?.align ?? settings.align) === "left"
-                    ? "bg-white/20"
-                    : "bg-white/5 hover:bg-white/10"
+                    ? "bg-gray-200"
+                    : "bg-gray-100 hover:bg-gray-200"
                 }
               `}
             >
               <svg
-                className="h-4 w-4 text-white/70"
+                className="h-4 w-4 text-gray-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -244,13 +244,13 @@ export function TextPanel({
                 flex h-10 w-10 items-center justify-center rounded-lg transition-all
                 ${
                   (selectedText?.align ?? settings.align) === "center"
-                    ? "bg-white/20"
-                    : "bg-white/5 hover:bg-white/10"
+                    ? "bg-gray-200"
+                    : "bg-gray-100 hover:bg-gray-200"
                 }
               `}
             >
               <svg
-                className="h-4 w-4 text-white/70"
+                className="h-4 w-4 text-gray-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -275,13 +275,13 @@ export function TextPanel({
                 flex h-10 w-10 items-center justify-center rounded-lg transition-all
                 ${
                   (selectedText?.align ?? settings.align) === "right"
-                    ? "bg-white/20"
-                    : "bg-white/5 hover:bg-white/10"
+                    ? "bg-gray-200"
+                    : "bg-gray-100 hover:bg-gray-200"
                 }
               `}
             >
               <svg
-                className="h-4 w-4 text-white/70"
+                className="h-4 w-4 text-gray-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -299,7 +299,7 @@ export function TextPanel({
 
         {/* Color */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Color
           </h3>
           <div className="grid grid-cols-5 gap-2">
@@ -314,11 +314,11 @@ export function TextPanel({
                   }
                 }}
                 className={`
-                  aspect-square rounded-lg transition-all
+                  aspect-square rounded-lg border transition-all
                   ${
                     (selectedText?.color ?? settings.color) === color
-                      ? "ring-2 ring-white ring-offset-2 ring-offset-black"
-                      : "hover:scale-105"
+                      ? "ring-2 ring-gray-900 ring-offset-2"
+                      : "border-gray-200 hover:scale-105"
                   }
                 `}
                 style={{ backgroundColor: color }}
@@ -326,7 +326,7 @@ export function TextPanel({
             ))}
           </div>
           <div className="mt-3 flex items-center gap-2">
-            <label className="text-xs text-white/50">Custom:</label>
+            <label className="text-xs text-gray-500">Custom:</label>
             <input
               type="color"
               value={selectedText?.color ?? settings.color}
@@ -337,7 +337,7 @@ export function TextPanel({
                   onSettingsChange({ color: e.target.value });
                 }
               }}
-              className="h-8 w-full cursor-pointer rounded-lg border-0 bg-transparent"
+              className="h-8 w-full cursor-pointer rounded-lg border border-gray-200 bg-transparent"
             />
           </div>
         </div>
@@ -345,7 +345,7 @@ export function TextPanel({
         {/* Text layers */}
         {texts.length > 0 && (
           <div className="mb-6">
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
               Text Layers
             </h3>
             <div className="space-y-2">
@@ -357,17 +357,17 @@ export function TextPanel({
                     flex cursor-pointer items-center justify-between rounded-lg p-2 transition-all
                     ${
                       selectedTextId === text.id
-                        ? "bg-white/20"
-                        : "bg-white/5 hover:bg-white/10"
+                        ? "bg-gray-200"
+                        : "bg-gray-100 hover:bg-gray-200"
                     }
                   `}
                 >
                   <div className="flex items-center gap-2 overflow-hidden">
                     <div
-                      className="h-4 w-4 rounded"
+                      className="h-4 w-4 rounded border border-gray-300"
                       style={{ backgroundColor: text.color }}
                     />
-                    <span className="truncate text-xs text-white/70">
+                    <span className="truncate text-xs text-gray-600">
                       {text.text || "Empty text"}
                     </span>
                   </div>
@@ -376,7 +376,7 @@ export function TextPanel({
                       e.stopPropagation();
                       onRemoveText(text.id);
                     }}
-                    className="rounded p-1 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+                    className="rounded p-1 text-gray-400 transition-colors hover:bg-gray-300 hover:text-gray-700"
                   >
                     <svg
                       className="h-3 w-3"
@@ -399,9 +399,9 @@ export function TextPanel({
         )}
 
         {/* Tips */}
-        <div className="rounded-lg bg-white/5 p-3">
-          <h4 className="mb-2 text-xs font-medium text-white/70">Tips</h4>
-          <ul className="space-y-1 text-xs text-white/50">
+        <div className="rounded-lg bg-gray-50 p-3">
+          <h4 className="mb-2 text-xs font-medium text-gray-700">Tips</h4>
+          <ul className="space-y-1 text-xs text-gray-500">
             <li>• Click on canvas to place text</li>
             <li>• Drag text to reposition</li>
             <li>• Select text layer to edit</li>

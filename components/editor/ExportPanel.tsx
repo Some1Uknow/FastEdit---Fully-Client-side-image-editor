@@ -37,17 +37,17 @@ export function ExportPanel({
   const outputHeight = Math.round(imageHeight * settings.scale);
 
   return (
-    <div className="flex h-full w-72 flex-col border-l border-white/10 bg-black/40 backdrop-blur-xl">
+    <div className="flex h-full w-72 flex-col border-l border-gray-200 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">Export</h2>
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <h2 className="text-sm font-semibold text-gray-900">Export</h2>
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-4">
         {/* Format selection */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Format
           </h3>
           <div className="space-y-2">
@@ -59,8 +59,8 @@ export function ExportPanel({
                   flex w-full items-start gap-3 rounded-lg p-3 text-left transition-all
                   ${
                     settings.format === format.value
-                      ? "bg-white/20 ring-1 ring-white/30"
-                      : "bg-white/5 hover:bg-white/10"
+                      ? "bg-gray-100 ring-1 ring-gray-300"
+                      : "bg-gray-50 hover:bg-gray-100"
                   }
                 `}
               >
@@ -69,20 +69,20 @@ export function ExportPanel({
                     mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 transition-all
                     ${
                       settings.format === format.value
-                        ? "border-white bg-white"
-                        : "border-white/30"
+                        ? "border-gray-900 bg-gray-900"
+                        : "border-gray-300"
                     }
                   `}
                 >
                   {settings.format === format.value && (
-                    <div className="h-1.5 w-1.5 rounded-full bg-black" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-white" />
                   )}
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-white">
+                  <span className="text-sm font-medium text-gray-900">
                     {format.label}
                   </span>
-                  <p className="mt-0.5 text-xs text-white/50">
+                  <p className="mt-0.5 text-xs text-gray-500">
                     {format.description}
                   </p>
                 </div>
@@ -94,7 +94,7 @@ export function ExportPanel({
         {/* Quality slider (for JPEG and WebP) */}
         {(settings.format === "jpeg" || settings.format === "webp") && (
           <div className="mb-6">
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
               Quality
             </h3>
             <div className="relative">
@@ -106,11 +106,11 @@ export function ExportPanel({
                 onChange={(e) =>
                   onSettingsChange({ quality: Number(e.target.value) })
                 }
-                className="w-full cursor-pointer appearance-none bg-transparent [&::-webkit-slider-runnable-track]:h-1.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-white/10 [&::-webkit-slider-thumb]:mt-[-4px] [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+                className="w-full cursor-pointer appearance-none bg-transparent [&::-webkit-slider-runnable-track]:h-1.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-gray-200 [&::-webkit-slider-thumb]:mt-[-4px] [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-900"
               />
-              <div className="mt-2 flex justify-between text-xs text-white/40">
+              <div className="mt-2 flex justify-between text-xs text-gray-400">
                 <span>Low</span>
-                <span className="font-medium text-white/70">
+                <span className="font-medium text-gray-600">
                   {settings.quality}%
                 </span>
                 <span>High</span>
@@ -121,7 +121,7 @@ export function ExportPanel({
 
         {/* Scale selection */}
         <div className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
             Scale
           </h3>
           <div className="grid grid-cols-4 gap-2">
@@ -133,8 +133,8 @@ export function ExportPanel({
                   rounded-lg py-2 text-sm font-medium transition-all
                   ${
                     settings.scale === scale.value
-                      ? "bg-white text-black"
-                      : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                   }
                 `}
               >
@@ -145,17 +145,17 @@ export function ExportPanel({
         </div>
 
         {/* Output dimensions */}
-        <div className="mb-6 rounded-lg bg-white/5 p-4">
-          <h4 className="mb-3 text-xs font-medium text-white/70">
+        <div className="mb-6 rounded-lg bg-gray-50 p-4">
+          <h4 className="mb-3 text-xs font-medium text-gray-600">
             Output Dimensions
           </h4>
           <div className="flex items-center justify-between">
             <div className="text-center">
-              <p className="text-lg font-semibold text-white">{outputWidth}</p>
-              <p className="text-xs text-white/50">Width</p>
+              <p className="text-lg font-semibold text-gray-900">{outputWidth}</p>
+              <p className="text-xs text-gray-500">Width</p>
             </div>
             <svg
-              className="h-4 w-4 text-white/30"
+              className="h-4 w-4 text-gray-300"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -168,8 +168,8 @@ export function ExportPanel({
               />
             </svg>
             <div className="text-center">
-              <p className="text-lg font-semibold text-white">{outputHeight}</p>
-              <p className="text-xs text-white/50">Height</p>
+              <p className="text-lg font-semibold text-gray-900">{outputHeight}</p>
+              <p className="text-xs text-gray-500">Height</p>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@ export function ExportPanel({
         <button
           onClick={onExport}
           disabled={isExporting}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 py-3 text-sm font-semibold text-white transition-all hover:from-violet-600 hover:to-fuchsia-600 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-gray-900 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isExporting ? (
             <>
@@ -207,8 +207,8 @@ export function ExportPanel({
       </div>
 
       {/* Info */}
-      <div className="border-t border-white/10 px-4 py-3">
-        <p className="text-xs text-white/40">
+      <div className="border-t border-gray-200 px-4 py-3">
+        <p className="text-xs text-gray-400">
           Image will be downloaded to your device
         </p>
       </div>
