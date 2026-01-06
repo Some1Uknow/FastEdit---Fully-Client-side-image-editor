@@ -28,12 +28,14 @@ import { ShapesPanel } from "./ShapesPanel";
 import { CropPanel } from "./CropPanel";
 import { ExportPanel } from "./ExportPanel";
 import { exportImage } from "@/lib/export";
+import { UploadZone } from "./UploadZone";
 
 export function ImageEditor() {
   // Image state
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [originalImage, setOriginalImage] = useState<HTMLImageElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Tool state
   const [activeTool, setActiveTool] = useState<Tool>("select");
@@ -149,41 +151,59 @@ export function ImageEditor() {
 
   // Load image helper
   const loadImageToEditor = useCallback((img: HTMLImageElement) => {
-    setImage(img);
-    setOriginalImage(img);
-    setZoom(1);
-    setPan({ x: 0, y: 0 });
-    setAdjustments(DEFAULT_ADJUSTMENTS);
-    setTransform({ rotation: 0, flipX: false, flipY: false });
-    setDrawingPaths([]);
-    setTexts([]);
-    setShapes([]);
-    setCropRect(null);
-    setActiveFilter(null);
-    setHistory([]);
-    setHistoryIndex(-1);
-
-    // Save initial state
+    setIsLoading(true);
+    // Simulate a small delay for the loading animation to be visible
     setTimeout(() => {
-      setHistory([
-        {
-          adjustments: DEFAULT_ADJUSTMENTS,
-          transform: { rotation: 0, flipX: false, flipY: false },
-          drawingPaths: [],
-          texts: [],
-          shapes: [],
-          cropRect: null,
-        },
-      ]);
-      setHistoryIndex(0);
-    }, 0);
+      setImage(img);
+      setOriginalImage(img);
+      setZoom(1);
+      setPan({ x: 0, y: 0 });
+      setAdjustments(DEFAULT_ADJUSTMENTS);
+      setTransform({ rotation: 0, flipX: false, flipY: false });
+      setDrawingPaths([]);
+      setTexts([]);
+      setShapes([]);
+      setCropRect(null);
+      setActiveFilter(null);
+      setHistory([]);
+      setHistoryIndex(-1);
+
+      // Save initial state
+      setTimeout(() => {
+        setHistory([
+          {
+            adjustments: DEFAULT_ADJUSTMENTS,
+            transform: { rotation: 0, flipX: false, flipY: false },
+            drawingPaths: [],
+            texts: [],
+            shapes: [],
+            cropRect: null,
+          },
+        ]);
+        setHistoryIndex(0);
+        setIsLoading(false);
+      }, 0);
+    }, 800);
   }, []);
 
   // Handle file upload
   const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    
+    setIsLoading(true);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => loadImageToEditor(img);
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }, [loadImageToEditor]);
 
+  // Handle file select from UploadZone
+  const handleFileSelect = useCallback((file: File) => {
+    setIsLoading(true);
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
@@ -195,6 +215,7 @@ export function ImageEditor() {
 
   // Load sample image
   const handleLoadSampleImage = useCallback(() => {
+    setIsLoading(true);
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => loadImageToEditor(img);
@@ -576,26 +597,30 @@ export function ImageEditor() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-[#0a0a0a]">
-      {/* Header */}
-      <header className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-4">
+      {/* Floating Navbar */}
+      <nav className="fixed left-1/2 top-6 z-50 flex -translate-x-1/2 items-center gap-6 rounded-full border border-white/10 bg-black/40 px-6 py-3 backdrop-blur-xl shadow-2xl transition-all hover:border-white/20 hover:bg-black/50">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 shadow-lg shadow-violet-500/20">
             <svg
-              className="h-5 w-5 text-white"
+              className="h-4 w-4 text-white"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth={2}
+              strokeWidth={2.5}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
               />
             </svg>
           </div>
-          <h1 className="text-lg font-semibold text-white">Image Editor</h1>
+          <span className="text-sm font-semibold tracking-tight text-white/90">
+            Image Editor
+          </span>
         </div>
+
+        <div className="h-4 w-px bg-white/10" />
 
         <div className="flex items-center gap-2">
           <input
@@ -607,10 +632,10 @@ export function ImageEditor() {
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/20"
+            className="group flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white transition-all hover:bg-white/20 hover:pr-3"
           >
             <svg
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 text-white/70 transition-colors group-hover:text-white"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -625,7 +650,7 @@ export function ImageEditor() {
             Open Image
           </button>
         </div>
-      </header>
+      </nav>
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
@@ -679,78 +704,11 @@ export function ImageEditor() {
             </>
           ) : (
             /* Upload prompt */
-            <div
-              className="flex flex-1 items-center justify-center p-8"
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-            >
-              <div className="flex max-w-md flex-col items-center rounded-2xl border-2 border-dashed border-white/20 bg-white/5 p-12 text-center transition-all hover:border-white/40 hover:bg-white/10">
-                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20">
-                  <svg
-                    className="h-10 w-10 text-white/60"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                    />
-                  </svg>
-                </div>
-                <h2 className="mb-2 text-xl font-semibold text-white">
-                  Drop your image here
-                </h2>
-                <p className="mb-6 text-sm text-white/50">
-                  or click the button below to browse
-                </p>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 px-6 py-3 text-sm font-semibold text-white transition-all hover:from-violet-600 hover:to-fuchsia-600"
-                  >
-                    <svg
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                      />
-                    </svg>
-                    Choose Image
-                  </button>
-                  <button
-                    onClick={handleLoadSampleImage}
-                    className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10"
-                  >
-                    <svg
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                      />
-                    </svg>
-                    Try Sample
-                  </button>
-                </div>
-                <p className="mt-4 text-xs text-white/30">
-                  Supports PNG, JPG, GIF, WebP, and more
-                </p>
-              </div>
-            </div>
+            <UploadZone
+              onFileSelect={handleFileSelect}
+              onUseSample={handleLoadSampleImage}
+              isLoading={isLoading}
+            />
           )}
         </div>
 
